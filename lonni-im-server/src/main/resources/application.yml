@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+
+im:
+  server:
+    unionServer: true
+    tcpIp: 127.0.0.1
+    tcpPort: 9898
+    enableTcp: false
+    enableWs: true
+    wsIp: 127.0.0.1
+    wsPort: 9898
+logging:
+  level:
+    io.netty: info
+    org.springframework: debug
+    com.lonni.im: debug
