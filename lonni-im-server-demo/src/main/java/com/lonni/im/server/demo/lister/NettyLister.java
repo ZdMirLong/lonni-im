@@ -1,16 +1,10 @@
-package com.lonni.im.server.lister;
+package com.lonni.im.server.demo.lister;
 
-import com.lonni.im.core.util.SpringContext;
-import com.lonni.im.server.handle.ProtocolDispatcher;
-import com.lonni.im.server.init.ImTcpServerInitializer;
 import com.lonni.im.server.server.ImServerBoot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
 
 /**
  * NettyLister：
@@ -27,11 +21,6 @@ public class NettyLister implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        ImTcpServerInitializer bean = SpringContext.getBean(ImTcpServerInitializer.class);
-        System.out.println(bean);
-        ProtocolDispatcher bean1 = SpringContext.getBean(ProtocolDispatcher.class);
-        System.out.println(bean1);
-
         serverBoot.startServer();
 
 

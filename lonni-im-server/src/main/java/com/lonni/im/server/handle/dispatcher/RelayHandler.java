@@ -1,5 +1,6 @@
-package com.lonni.im.server.handle;
+package com.lonni.im.server.handle.dispatcher;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -13,18 +14,20 @@ import java.io.Serializable;
  * @author: Lonni
  * @date: 2023/2/17 0017 15:23
  */
+@ChannelHandler.Sharable
 public class RelayHandler  extends ChannelInboundHandlerAdapter {
 
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("RelayHandler-----channelActive");
+        super.channelActive(ctx);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         System.out.println("RelayHandler-----channelRead");
-        ctx.fireChannelRead(msg);
+        super.channelRead(ctx,msg);
     }
 
 }

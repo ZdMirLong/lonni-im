@@ -1,13 +1,12 @@
-package com.lonni.im.server.msghandler;
+package com.lonni.im.server.demo.handler;
 
 import com.lonni.im.core.action.LoginRequestAction;
-import com.lonni.im.core.util.SpringContext;
+import com.lonni.im.core.annotation.MsgHandler;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
 
 /**
  * LoginHandler：
@@ -18,19 +17,20 @@ import java.io.Serializable;
  */
 @Component
 @Slf4j
-public class LoginHandler extends SimpleChannelInboundHandler<LoginRequestAction> {
+@MsgHandler(order = 1)
+@ChannelHandler.Sharable
+public class Login1Handler extends SimpleChannelInboundHandler<LoginRequestAction> {
 
 
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestAction msg) throws Exception {
-      log.info("登录处理器接受到请求:{}",msg.toString());
+      log.info("Login1 登录处理器接受到请求:{}",msg.toString());
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("进入channelActive 方法");
-        super.channelActive(ctx);
+        log.info("Login1 进入channelActive 方法");
     }
 }
 

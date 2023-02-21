@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <script>
+
+
+
+
+        const PONG_BODY = new Uint8Array([01, 02, 03, 04]);
+        const PONG = 0;
+        let pong = new Uint8Array(PONG_BODY.byteLength + 1);
+        pong[0] = PONG;
+        pong.set(PONG_BODY, 1);
+        console.info("pong", pong);
+
+
+
+
+
+
+
+
+
+
+        //TODO 组装报文
+        // 请求头长度(16) 加上 消息体长度
+        var Reqobj = {
+            userName: "lonni",
+            pwd: "123456",
+            seriaType:1,
+            messageType:1
+        };
+
+        let buf = strToBuf(JSON.stringify(Reqobj));
+        console.info("buf", buf);
+        console.info("buflength", buf.byteLength);
+        let totalLength = buf.byteLength + 16;
+        console.info("总消息长度为:" + totalLength);
+        var view = new DataView(new ArrayBuffer(totalLength));
+        view.setUint8(0, 1);
+        view.setUint8(1, 2)
+        view.setUint8(2, 3)
+        view.setUint8(3, 4);
+        view.setUint8(4, 1);
+        view.setUint8(5, 1);//序列化类型过
+        view.setUint8(6, 1);// 消息类型
+        //请求序号 4个字节
+        view.setInt32(7, 10001);
+        // 填充 255  上面占用了4个字节要加上 1字节
+        view.setUint8(11, 255);
+
+
+        // 消息长度  4 字节 
+        view.setInt32(12, buf.byteLength);
+        //消息体 从16 开始
+        let index = 15
+        let nindex = 0;
+        for (var i = 1; i <= buf.byteLength; i++) {
+            index++;
+            view.setUint8(index, buf[nindex]);
+            nindex++;
+        }
+        console.log("view", view);
+        console.info("view.buffer", view.buffer)
+
+
+
+
+
+
+
+        //写入4字节数据
+        var q1 = getInt32Bytes(10001);
+        console.info(q1);
+
+        var q2 = getUint32Bytes(10001);
+        console.info(q2);
+
+
+        var q3 = getUint16Bytes(10001);
+        console.info(q3);
+
+
+
+
+
+
+        //构建一个视图，把字节数组写到缓存中，索引从0开始，大端字节序
+        function getView(bytes) {
+            var view = new DataView(new ArrayBuffer(bytes.length));
+            for (var i = 0; i < bytes.length; i++) {
+                view.setUint8(i, bytes[i]);
+            }
+            return view;
+        }
+        //将字节数组转成有符号的8位整型，大端字节序
+        function toInt8(bytes) {
+            return getView(bytes).getInt8();
+        }
+        //将字节数组转成无符号的8位整型，大端字节序
+        function toUint8(bytes) {
+            return getView(bytes).getUint8();
+        }
+        //将字节数组转成有符号的16位整型，大端字节序
+        function toInt16(bytes) {
+            return getView(bytes).getInt16();
+        }
+        //将字节数组转成无符号的16位整型，大端字节序
+        function toUint16(bytes) {
+            return getView(bytes).getUint16();
+        }
+        //将字节数组转成有符号的32位整型，大端字节序
+        function toInt32(bytes) {
+            return getView(bytes).getInt32();
+        }
+        //将字节数组转成无符号的32位整型，大端字节序
+        function toUint32(bytes) {
+            return getView(bytes).getUint32();
+        }
+        //将字节数组转成32位浮点型，大端字节序
+        function toFloat32(bytes) {
+            return getView(bytes).getFloat32();
+        }
+        //将字节数组转成64位浮点型，大端字节序
+        function toFloat64(bytes) {
+            return getView(bytes).getFloat64();
+        }
+
+        //将数值写入到视图中，获得其字节数组，大端字节序
+        function getUint8Array(len, setNum) {
+            var buffer = new ArrayBuffer(len);  //指定字节长度
+            setNum(new DataView(buffer));  //根据不同的类型调用不同的函数来写入数值
+            return new Uint8Array(buffer); //创建一个字节数组，从缓存中拿取数据
+        }
+        //得到一个8位有符号整型的字节数组，大端字节序
+        function getInt8Bytes(num) {
+            return getUint8Array(1, function (view) { view.setInt8(0, num); })
+        }
+        //得到一个8位无符号整型的字节数组，大端字节序
+        function getUint8Bytes(num) {
+            return getUint8Array(1, function (view) { view.setUint8(0, num); })
+        }
+        //得到一个16位有符号整型的字节数组，大端字节序
+        function getInt16Bytes(num) {
+            return getUint8Array(2, function (view) { view.setInt16(0, num); })
+        }
+        //得到一个16位无符号整型的字节数组，大端字节序
+        function getUint16Bytes(num) {
+            return getUint8Array(2, function (view) { view.setUint16(0, num); })
+        }
+        //得到一个32位有符号整型的字节数组，大端字节序
+        function getInt32Bytes(num) {
+            return getUint8Array(4, function (view) { view.setInt32(0, num); })
+        }
+        //得到一个32位无符号整型的字节数组，大端字节序
+        function getUint32Bytes(num) {
+            return getUint8Array(4, function (view) { view.setUint32(0, num); })
+        }
+        //得到一个32位浮点型的字节数组，大端字节序
+        function getFloat32Bytes(num) {
+            return getUint8Array(4, function (view) { view.setFloat32(0, num); })
+        }
+        //得到一个64位浮点型的字节数组，大端字节序
+        function getFloat64Bytes(num) {
+            return getUint8Array(8, function (view) { view.setFloat64(0, num); })
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**
+         *  将字符串转换为buf
+         * 
+         *  */
+        function strToBuf(str) {
+
+
+            var bufArra = new Uint8Array(str.length * 2);
+            for (var i = 0; i < str.length; i++) {
+                console.info("str.charCodeAt(i)", str.charCodeAt(i));
+                bufArra[i] = str.charCodeAt(i);
+            }
+            return bufArra;
+
+        }
+
+        /**
+         * 将字符串转换为buf
+         * 使用 TextEncoder
+         * @return  Uint8Array
+         * */
+       function str2Buf(str){
+        let encode=new  TextEncoder("UTF-8");
+        return encode.encode(str);
+       }
+
+       /**
+         * 将arraybuf转换为str
+         * 使用 TextDecoder
+         * @return  string 
+         * */
+       function Buf2Str(buf){
+        let decode=new  TextDecoder("UTF-8");
+        return decode.decode(buf);
+       }
+
+
+
+        var socket;
+        // 判断当前浏览器是否支持webSocket
+        if (window.WebSocket) {
+            // go on
+            socket = new WebSocket("ws://127.0.0.1:9898/ws");
+            //TODO 测试修改为二进制leixing
+            //设置发送二进制数据 用于自定义协议
+            socket.binaryType = 'arraybuffer';
+
+            // 相当于channelRead0，ev 可以收到服务器端会送的消息
+            socket.onmessage = function (ev) {
+                var rt = document.getElementById("responseText");
+                rt.value = rt.value + "\n" + ev.data;
+            }
+
+            // 相当于连接开启（感知到连接开启）
+            socket.onopen = function (ev) {
+                var rt = document.getElementById("responseText");
+                rt.value = "连接开启了...";
+            }
+
+            // 相当于连接关闭（感知到连接关闭）
+            socket.onclose = function (ev) {
+                var rt = document.getElementById("responseText");
+                rt.value = rt.value + "\n连接关闭了";
+            }
+        } else {
+            alert("当前浏览器不支持websocket");
+        }
+
+        // 发送消息到服务器
+        function send(message) {
+            if (!window.socket) { // 先判断socket是否创建好
+                return;
+            }
+            if (socket.readyState == WebSocket.OPEN) {
+                // 通过socket发送消息
+                socket.send(view.buffer);
+
+            } else {
+                alert("连接未开启");
+            }
+        }
+    </script>
+    <form onsubmit="return false">
+        <textarea name="message" style="height: 300px;width: 300px"></textarea>
+        <input type="button" value="发送消息" onclick="send(this.form.message.value)" />
+        <textarea id="responseText" style="height: 300px;width: 300px"></textarea>
+        <input type="button" value="清空内容" onclick="document.getElementById('responseText').value=''" />
+    </form>
+</body>
+
+</html>

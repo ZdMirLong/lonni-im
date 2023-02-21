@@ -51,13 +51,14 @@ public class MessageCodec extends ByteToMessageCodec<Action> {
     /**
      * 编码
      *
-     * @param channelHandlerContext
+     * @param ctx
      * @param baseMessage
      * @param out
      * @throws Exception
      */
     @Override
-    public void encode(ChannelHandlerContext channelHandlerContext, Action baseMessage, ByteBuf out) throws Exception {
+    public void encode(ChannelHandlerContext ctx, Action baseMessage, ByteBuf out) throws Exception {
+        log.info("客户端 {}进入MessageCodec编码器",ctx.channel().remoteAddress().toString());
         codec.encode(baseMessage,out);
     }
 
@@ -71,6 +72,7 @@ public class MessageCodec extends ByteToMessageCodec<Action> {
      */
     @Override
     public void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> list) throws Exception {
+        log.info("客户端 {}进入MessageCodec解码器",ctx.channel().remoteAddress().toString());
         codec.decode(ctx,in,list);
     }
 }

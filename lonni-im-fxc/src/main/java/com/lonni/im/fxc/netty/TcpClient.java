@@ -43,6 +43,10 @@ public class TcpClient implements Serializable {
         System.out.println("发送消息完成");
     }
 
+    public ChannelFuture getChannelFuture() {
+        return channelFuture;
+    }
+
 
 
     @Async

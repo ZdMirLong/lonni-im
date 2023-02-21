@@ -21,13 +21,13 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("链接成功");
-//        super.channelActive(ctx);
-        // 发送数据
-        LoginRequestAction loginAction = new LoginRequestAction();
-        loginAction.setSeriaType(SerializeAlgorithmEnum.JDK.getTypeToInt());
-        loginAction.setPwd("111");
-        loginAction.setUserName("222");
-        ctx.writeAndFlush(loginAction);
+        super.channelActive(ctx);
+//        // 发送数据
+//        LoginRequestAction loginAction = new LoginRequestAction();
+//        loginAction.setSeriaType(SerializeAlgorithmEnum.JDK.getTypeToInt());
+//        loginAction.setPwd("111");
+//        loginAction.setUserName("222");
+//        ctx.writeAndFlush(loginAction);
 
     }
 

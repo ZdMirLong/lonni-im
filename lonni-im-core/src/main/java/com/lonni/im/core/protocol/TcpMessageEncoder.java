@@ -17,6 +17,7 @@ import java.io.Serializable;
  * @date: 2023/2/20 0020 17:00
  */
 @ChannelHandler.Sharable
+@Deprecated
 public class TcpMessageEncoder extends MessageToByteEncoder<Action> {
     private final Logger log = LoggerFactory.getLogger(TcpMessageEncoder.class);
 

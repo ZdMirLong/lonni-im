@@ -4,7 +4,7 @@ server:
 
 im:
   server:
-    unionServer: true
+    unionServer: false
     tcpIp: 127.0.0.1
     tcpPort: 9898
     enableTcp: false

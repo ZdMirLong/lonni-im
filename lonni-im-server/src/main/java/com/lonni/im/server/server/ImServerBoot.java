@@ -1,7 +1,6 @@
 package com.lonni.im.server.server;
 
-import com.lonni.im.server.model.ImServerProperties;
-import lombok.SneakyThrows;
+import com.lonni.im.server.properties.ImServerProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

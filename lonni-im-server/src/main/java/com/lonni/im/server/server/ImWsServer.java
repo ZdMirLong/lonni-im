@@ -2,7 +2,7 @@ package com.lonni.im.server.server;
 
 import cn.hutool.core.lang.Assert;
 import com.lonni.im.server.init.ImWsServerInitializer;
-import com.lonni.im.server.model.ImServerProperties;
+import com.lonni.im.server.properties.ImServerProperties;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelFuture;
@@ -16,7 +16,6 @@ import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;

@@ -1,19 +1,17 @@
-package com.lonni.im.server.handle;
+package com.lonni.im.server.handle.dispatcher;
 
-import com.lonni.im.core.protocol.MessageCodec;
 import com.lonni.im.core.util.ImUtil;
-import com.lonni.im.server.model.ImServerProperties;
+import com.lonni.im.server.handle.TcpInitializerHandler;
+import com.lonni.im.server.handle.WsInitializerHandler;
+import com.lonni.im.server.properties.ImServerProperties;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.util.List;
 
 
@@ -65,7 +63,7 @@ public class ProtocolDispatcher extends ByteToMessageDecoder {
         boolean istcp = ImUtil.getInstance().checkMagics(moshuBy);
         if (istcp) {
             log.info("ProtocolDispatcher--->是tcp协议");
-            dispatchToTcp(ctx);
+            dispatchToTcp(ctx,in);
         } else if (ImUtil.getInstance().isHttp(magic1, magic2)) {
             //判断是否是http
             log.info("ProtocolDispatcher--->是http协议");
@@ -78,15 +76,14 @@ public class ProtocolDispatcher extends ByteToMessageDecoder {
 
     }
 
-    public void dispatchToTcp(ChannelHandlerContext ctx) {
+    public void dispatchToTcp(ChannelHandlerContext ctx,Object msg) {
         ChannelPipeline pipeline = ctx.pipeline();
         //加入自定义编解码
         tcpInitializerHandler.initPieLine(pipeline);
         if (config.isUnionServer()) {
             pipeline.remove(this);
+            ctx.fireChannelActive();
         }
-        // 将channelActive事件传递到PacketHandler
-        ctx.fireChannelActive();
     }
 
     public void dispatchToHttp(ChannelHandlerContext ctx) {

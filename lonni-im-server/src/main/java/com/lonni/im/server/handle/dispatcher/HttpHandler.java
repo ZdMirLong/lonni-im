@@ -1,8 +1,8 @@
-package com.lonni.im.server.handle;
+package com.lonni.im.server.handle.dispatcher;
 
 import com.lonni.im.core.protocol.WsMessageCodec;
-import com.lonni.im.server.model.ImServerProperties;
-import com.lonni.im.server.msghandler.LoginHandler;
+import com.lonni.im.core.util.MsgHandlerUtil;
+import com.lonni.im.server.properties.ImServerProperties;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
@@ -14,8 +14,6 @@ import io.netty.handler.codec.http.websocketx.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
 
 /**
  * 用于处理websocket协议器
@@ -77,13 +75,10 @@ public class HttpHandler extends SimpleChannelInboundHandler<Object> {
 
     public void addHandler(ChannelHandlerContext ctx) {
         ChannelPipeline pipeline = ctx.pipeline();
-        //TODO 其他处理逻辑
         pipeline.addLast(WsMessageCodec.getInstance());
-        pipeline.addLast(new LoginHandler());
+        MsgHandlerUtil.addMsgHandlerToPipeline(pipeline);
         if (properties.isUnionServer()) {
             pipeline.remove(this);
-            // 将channelActive事件传递到FrameHandler
-            ctx.fireChannelActive();
         }
 
 

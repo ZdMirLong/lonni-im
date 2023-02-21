@@ -12,6 +12,7 @@
         <module>lonni-im-core</module>
         <module>lonni-im-server</module>
         <module>lonni-im-fxc</module>
+        <module>lonni-im-server-demo</module>
     </modules>
 
     <properties>

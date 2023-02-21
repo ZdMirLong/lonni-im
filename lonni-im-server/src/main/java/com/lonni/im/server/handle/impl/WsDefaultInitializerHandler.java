@@ -1,8 +1,7 @@
 package com.lonni.im.server.handle.impl;
 
-import com.lonni.im.server.handle.HttpHandler;
-import com.lonni.im.server.handle.RelayHandler;
-import com.lonni.im.server.handle.TcpInitializerHandler;
+import com.lonni.im.server.handle.dispatcher.HttpHandler;
+import com.lonni.im.server.handle.dispatcher.RelayHandler;
 import com.lonni.im.server.handle.WsInitializerHandler;
 import io.netty.channel.ChannelPipeline;
 import io.netty.handler.codec.http.HttpObjectAggregator;

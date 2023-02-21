@@ -1,4 +1,4 @@
-package com.lonni.im.core.action;
+package com.lonni.im.core.annotation;
 
 import java.lang.annotation.*;
 
@@ -16,4 +16,11 @@ public @interface MsgHandler {
      * @return
      */
     int order() default 0;
+
+    /**
+     * 单例还是多例  0 单例  1 多例
+     * @return
+     */
+    int scope() default 0;
+
 }

@@ -1,18 +1,15 @@
 package com.lonni.im.server.init;
 
-import com.lonni.im.core.protocol.MessageCodec;
-import com.lonni.im.server.handle.ProtocolDispatcher;
+import com.lonni.im.server.handle.dispatcher.ProtocolDispatcher;
 import com.lonni.im.server.handle.TcpInitializerHandler;
 import com.lonni.im.server.handle.WsInitializerHandler;
-import com.lonni.im.server.model.ImServerProperties;
-import com.lonni.im.server.msghandler.LoginHandler;
+import com.lonni.im.server.properties.ImServerProperties;
+
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * 协议初始化器
@@ -47,10 +44,14 @@ public class ImTcpServerInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
-        pipeline.addLast(new ProtocolDispatcher(config,tcpInitializerHandler,wsInitializerHandler));
-//        pipeline.addLast(protocolDispatcher);
-//        pipeline.addLast(new  MessageCodec());
-//        pipeline.addLast(new LoginHandler());
+        if (config.isUnionServer()){
+            //如果是联合端口 ,使用此方式
+            pipeline.addLast(new ProtocolDispatcher(config,tcpInitializerHandler,wsInitializerHandler));
+        }else {
+            //否则直接使用此方式
+           tcpInitializerHandler.initPieLine(pipeline);
+        }
+
     }
 }
 

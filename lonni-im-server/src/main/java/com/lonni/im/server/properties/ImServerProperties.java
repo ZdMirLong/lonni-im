@@ -1,9 +1,8 @@
-package com.lonni.im.server.model;
+package com.lonni.im.server.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.awt.*;
 import java.io.Serializable;
 
 /**
@@ -15,6 +14,7 @@ import java.io.Serializable;
  */
 @ConfigurationProperties("im.server")
 @Data
+
 public class ImServerProperties implements Serializable {
 
 
