@@ -1,5 +1,6 @@
 package com.lonni.im.client;
 
+import cn.hutool.core.lang.ConsistentHash;
 import com.lonni.im.core.protocol.MessageCodec;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * testTcpClient：
@@ -92,6 +95,53 @@ public class testTcpClient implements Serializable {
 
 
 
+    @Test
+    public void test1(){
+        List<String> list=new ArrayList<>();
+        list.add("127.0.0.1");
+        list.add("127.0.0.2");
+        list.add("127.0.0.3");
+        list.add("127.0.0.4");
+        list.add("127.0.0.5");
+
+        /*
+        * 编号为:123的数据所在节点为:127.0.0.1
+编号为:124的数据所在节点为:127.0.0.5
+编号为:125的数据所在节点为:127.0.0.5
+编号为:126的数据所在节点为:127.0.0.2
+编号为:127的数据所在节点为:127.0.0.2
+编号为:128的数据所在节点为:127.0.0.4
+*
+*第二次
+* 编号为:123的数据所在节点为:127.0.0.1
+编号为:124的数据所在节点为:127.0.0.5
+编号为:125的数据所在节点为:127.0.0.5
+编号为:126的数据所在节点为:127.0.0.2
+编号为:127的数据所在节点为:127.0.0.2
+编号为:128的数据所在节点为:127.0.0.4
+
+
+*
+*
+        *
+        *
+        *
+        * */
+
+
+
+        ConsistentHash<String> consistentHash=new ConsistentHash<>(10,list);
+        String [] userIds=new String[]{"123","124","125","126","127","128"};
+
+        for (int i = 0; i < userIds.length; i++) {
+            String s = consistentHash.get(userIds[i]);
+            System.out.println("编号为:"+userIds[i]+"的数据所在节点为:"+s);
+        }
+
+
+
+
+    }
 
 
 
