@@ -39,27 +39,11 @@ public class ImServerBoot implements Serializable {
 
         if ((unionServer||enableTcp) &&tcpServer!=null){
             tcpServer.start();
-
-//              new Thread(new Runnable() {
-//                  @Override
-//                  public void run() {
-//                      try {
-//                          tcpServer.start();
-//                      } catch (InterruptedException e) {
-//                          throw new RuntimeException(e);
-//                      }
-//                  }
-//              });
         }
 
         if (enableWs&&wsServer!=null){
             wsServer.start();
         }
-
-
-
-
-
 
     }
 
