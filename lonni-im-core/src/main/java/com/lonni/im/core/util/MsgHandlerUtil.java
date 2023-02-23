@@ -1,7 +1,9 @@
 package com.lonni.im.core.util;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.ClassScanner;
 import cn.hutool.core.lang.Singleton;
+import cn.hutool.core.map.MapUtil;
 import com.lonni.im.core.annotation.MsgHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelPipeline;
@@ -23,6 +25,10 @@ public class MsgHandlerUtil implements Serializable {
     private final static Logger logger = LoggerFactory.getLogger(MsgHandlerUtil.class);
 
     /**
+     * 存储消息对象
+     */
+    private   static  Map<String ,Object> BEAN_MAP=new ConcurrentHashMap<>();
+    /**
      * 获取处理类,返回排序后的集合
      *
      * @return
@@ -30,8 +36,12 @@ public class MsgHandlerUtil implements Serializable {
     public static List<Object> getMsgHandler() {
         List<Object> objects = new ArrayList<>();
         List<Map<Object, Object>> maps = new ArrayList<>();
-        Map<String, Object> beansWithAnnotation = SpringContext.getBeansWithAnnotation(MsgHandler.class);
-        beansWithAnnotation.forEach((k, v) -> {
+
+        if ( CollectionUtil.isEmpty(BEAN_MAP)) {
+            Map<String, Object> beansWithAnnotation = SpringContext.getBeansWithAnnotation(MsgHandler.class);
+            BEAN_MAP= Collections.synchronizedMap(beansWithAnnotation);
+        }
+        BEAN_MAP.forEach((k, v) -> {
             MsgHandler annotation = v.getClass().getAnnotation(MsgHandler.class);
             int order = annotation.order();
             maps.add(new ConcurrentHashMap<Object, Object>() {{

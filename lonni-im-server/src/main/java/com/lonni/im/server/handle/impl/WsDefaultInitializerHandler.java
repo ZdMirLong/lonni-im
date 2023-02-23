@@ -12,9 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * TcpDefaultInitializerHandler：
- * Description:
- *
+ * websocket初始化消息处理器
+ * 在这里增加用于自定义的处理器
  * @author: Lonni
  * @date: 2023/2/17 0017 10:11
  */

@@ -36,8 +36,13 @@ public class ImServerBoot implements Serializable {
         if (!start){
             return;
         }
+//屏蔽掉联合端口
+//        if ((unionServer||enableTcp) &&tcpServer!=null){
+//            tcpServer.start();
+//        }
 
-        if ((unionServer||enableTcp) &&tcpServer!=null){
+        // 开启单独端口请注释tcp
+        if (enableTcp&&tcpServer!=null){
             tcpServer.start();
         }
 
@@ -58,11 +63,11 @@ public class ImServerBoot implements Serializable {
             return false;
         }
 
-
-        if (!unionServer&&(enableWs&&enableTcp)){
-          log.info("配置无效!同时开启tcp和websocket配置无效,请设置 unionServer=true");
-          return false;
-        }
+// 屏蔽掉联合端口
+//        if (!unionServer&&(enableWs&&enableTcp)){
+//          log.info("配置无效!同时开启tcp和websocket配置无效,请设置 unionServer=true");
+//          return false;
+//        }
 
         return  true;
 

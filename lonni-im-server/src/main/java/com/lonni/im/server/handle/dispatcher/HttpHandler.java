@@ -2,6 +2,7 @@ package com.lonni.im.server.handle.dispatcher;
 
 import com.lonni.im.core.protocol.WsMessageCodec;
 import com.lonni.im.core.util.MsgHandlerUtil;
+import com.lonni.im.server.handle.MessageHandler;
 import com.lonni.im.server.properties.ImServerProperties;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -76,7 +77,9 @@ public class HttpHandler extends SimpleChannelInboundHandler<Object> {
     public void addHandler(ChannelHandlerContext ctx) {
         ChannelPipeline pipeline = ctx.pipeline();
         pipeline.addLast(WsMessageCodec.getInstance());
-        MsgHandlerUtil.addMsgHandlerToPipeline(pipeline);
+        //TODO 去掉 自定义的handler 去掉 ,使用事件分发处理
+       pipeline.addLast(MessageHandler.getInstance());
+//        MsgHandlerUtil.addMsgHandlerToPipeline(pipeline);
         if (properties.isUnionServer()) {
             pipeline.remove(this);
         }

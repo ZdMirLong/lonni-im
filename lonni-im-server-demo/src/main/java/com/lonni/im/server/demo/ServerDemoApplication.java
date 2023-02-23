@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @author: Lonni
  * @date: 2023/2/16 0016 19:21
  */
-@SpringBootApplication(scanBasePackages = {"com.lonni.im"})
+@SpringBootApplication(scanBasePackages = {"com.lonni.im"},exclude = {DataSourceAutoConfiguration.class})
 @Slf4j
 @EnableAsync
 public class ServerDemoApplication  {

@@ -6,13 +6,13 @@ im:
   server:
     unionServer: false
     tcpIp: 127.0.0.1
-    tcpPort: 9898
-    enableTcp: false
+    tcpPort: 9899
+    enableTcp: true
     enableWs: true
     wsIp: 127.0.0.1
     wsPort: 9898
 logging:
   level:
     io.netty: info
-    org.springframework: debug
+    org.springframework: info
     com.lonni.im: debug

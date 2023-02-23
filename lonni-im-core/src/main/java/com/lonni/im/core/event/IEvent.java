@@ -17,7 +17,7 @@ public interface IEvent<T,R>  {
      * @param ctx
      * @return
      */
-    R execute(T requestAction, ChannelHandlerContext ctx);
+    R execute(T requestAction, ChannelHandlerContext ctx) throws InterruptedException;
 
 }
 
