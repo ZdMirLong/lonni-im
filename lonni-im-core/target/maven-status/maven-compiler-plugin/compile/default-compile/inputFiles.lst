@@ -21,6 +21,7 @@ D:\EthanWork\lonni-im\lonni-im\lonni-im-core\src\main\java\com\lonni\im\core\uti
 D:\EthanWork\lonni-im\lonni-im\lonni-im-core\src\main\java\com\lonni\im\core\serializable\SerializerBase.java
 D:\EthanWork\lonni-im\lonni-im\lonni-im-core\src\main\java\com\lonni\im\core\action\ChatResponseAction.java
 D:\EthanWork\lonni-im\lonni-im\lonni-im-core\src\main\java\com\lonni\im\core\protocol\MessageCodec.java
+D:\EthanWork\lonni-im\lonni-im\lonni-im-core\src\main\java\com\lonni\im\core\util\Osutil.java
 D:\EthanWork\lonni-im\lonni-im\lonni-im-core\src\main\java\com\lonni\im\core\action\GroupChatResponseAction.java
 D:\EthanWork\lonni-im\lonni-im\lonni-im-core\src\main\java\com\lonni\im\core\protocol\CustomCodec.java
 D:\EthanWork\lonni-im\lonni-im\lonni-im-core\src\main\java\com\lonni\im\core\action\ChatRequestAction.java

@@ -1,6 +1,2 @@
-com\lonni\im\fxc\netty\TcpClient$1.class
-com\lonni\im\fxc\netty\TcpClient.class
-com\lonni\im\fxc\netty\ClientHandler.class
 com\lonni\im\fxc\FxcClientApplication.class
-com\lonni\im\fxc\netty\TcpClient$2.class
 com\lonni\im\fxc\controller\SendController.class

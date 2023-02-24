@@ -88,13 +88,14 @@ public abstract class AbstractServer implements Serializable {
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(boosGroup, workGroup);
         bootstrap.channel(Osutil.isLinux() ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
-                .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+//                .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 //服务端可连接队列数,对应TCP/IP协议listen函数中backlog参数
-                .option(ChannelOption.SO_BACKLOG, 1024)
+                .option(ChannelOption.SO_BACKLOG, 10240)
+                .option(ChannelOption.SO_REUSEADDR, true)
                 //设置TCP长连接,一般如果两个小时内没有数据的通信时,TCP会自动发送一个活动探测数据报文
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
-                //将小的数据包包装成更大的帧进行传送，提高网络的负载,即TCP延迟传输
-                .childOption(ChannelOption.TCP_NODELAY, false)
+                //是否禁用Nagle算法 简单点说是否批量发送数据 true关闭 false开启。 开启的话可以减少一定的网络开销，但影响消息实时性
+                .childOption(ChannelOption.TCP_NODELAY, true)
                 //加入日志处理
                 .handler(new LoggingHandler(LogLevel.DEBUG))
                 .localAddress(getAddress());

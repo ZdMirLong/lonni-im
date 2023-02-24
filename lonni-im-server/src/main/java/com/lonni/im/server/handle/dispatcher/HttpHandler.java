@@ -2,6 +2,7 @@ package com.lonni.im.server.handle.dispatcher;
 
 import com.lonni.im.core.protocol.WsMessageCodec;
 import com.lonni.im.core.util.MsgHandlerUtil;
+import com.lonni.im.server.handle.HeartBeatHandler;
 import com.lonni.im.server.handle.MessageHandler;
 import com.lonni.im.server.properties.ImServerProperties;
 import io.netty.channel.ChannelHandler;
@@ -12,6 +13,7 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.websocketx.*;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -56,6 +58,7 @@ public class HttpHandler extends SimpleChannelInboundHandler<Object> {
             } else {
                 //TODO 如果是http请求
                 log.info("不支持的请求 http");
+                ctx.flush();
                 ctx.close();
             }
         }
@@ -77,13 +80,16 @@ public class HttpHandler extends SimpleChannelInboundHandler<Object> {
     public void addHandler(ChannelHandlerContext ctx) {
         ChannelPipeline pipeline = ctx.pipeline();
         pipeline.addLast(WsMessageCodec.getInstance());
+        pipeline.addLast(new IdleStateHandler(
+                0, 0,
+                10));
+        pipeline.addLast(new HeartBeatHandler(properties.getHeartBeatTime()));
         //TODO 去掉 自定义的handler 去掉 ,使用事件分发处理
-       pipeline.addLast(MessageHandler.getInstance());
+        pipeline.addLast(MessageHandler.getInstance());
 //        MsgHandlerUtil.addMsgHandlerToPipeline(pipeline);
         if (properties.isUnionServer()) {
             pipeline.remove(this);
         }
-
 
 
     }

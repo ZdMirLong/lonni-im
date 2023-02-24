@@ -65,6 +65,10 @@ public class MessageHandler extends SimpleChannelInboundHandler<Action> {
     protected void channelRead0(ChannelHandlerContext ctx, Action msg) throws Exception {
         log.info("进入读取事件....");
         IEvent event = EventBus.getInstance().getEvent(msg.getMessageType());
+        if (event==null){
+            log.error("找不到消息处理事件....");
+            return;
+        }
         Object execute = event.execute(msg, ctx);
         if (execute!=null){
             ctx.writeAndFlush(execute);

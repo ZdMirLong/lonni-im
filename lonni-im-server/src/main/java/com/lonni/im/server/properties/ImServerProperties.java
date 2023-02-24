@@ -21,17 +21,17 @@ public class ImServerProperties implements Serializable {
     /**
      * boos线程主的数量
      */
-    private  Integer boosGroupNum=1;
+    private Integer boosGroupNum = 1;
 
     /**
      * work线程组的数量
      */
-    private Integer workGroupNum=5;
+    private Integer workGroupNum = 5;
     /**
      * 是否使用联合server
      * 即 将websocket和tcp放在同一端口
      */
-    private boolean unionServer=false;
+    private boolean unionServer = false;
     /**
      * 是否启用tcp服务
      * 如果unionServer=true,此配置无效
@@ -44,8 +44,8 @@ public class ImServerProperties implements Serializable {
     private boolean enableWs;
 
     /**
-     *  tcp ip地址
-     *  如果unionServer=true,此为ws 和 tcp的ip地址
+     * tcp ip地址
+     * 如果unionServer=true,此为ws 和 tcp的ip地址
      */
     private String tcpIp;
     /**
@@ -55,7 +55,6 @@ public class ImServerProperties implements Serializable {
     private Integer tcpPort;
 
     /**
-     *
      * ws的ip地址
      * 如果unionServer=false,此为ws的ip
      */
@@ -71,11 +70,12 @@ public class ImServerProperties implements Serializable {
      * ws的前缀
      * 默认为 /ws
      */
-    private String wsPrefix="/ws";;
+    private String wsPrefix = "/ws";
 
-
-
-
+    /**
+     * 心跳超时时间 单位  毫秒 ,默认 20000
+     */
+    private Long heartBeatTime=20000L;
 
 
 }

@@ -28,6 +28,7 @@ com\lonni\im\core\serializable\HessianSerializer.class
 com\lonni\im\core\action\LoginRequestAction.class
 com\lonni\im\core\action\ActionFactory.class
 com\lonni\im\core\serializable\SerializeFactory$1.class
+com\lonni\im\core\util\Osutil.class
 com\lonni\im\core\protocol\MessageCodec.class
 com\lonni\im\core\event\EventBus.class
 com\lonni\im\core\event\IEvent.class

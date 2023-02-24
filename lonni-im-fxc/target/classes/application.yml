@@ -1,2 +1,9 @@
 server:
   port: 8881
+
+
+im:
+  client:
+    linkType: 0   #0 tcp 1 ws
+    ip: 127.0.0.1
+    port: 9899

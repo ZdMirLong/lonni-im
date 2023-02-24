@@ -14,6 +14,7 @@
         <module>lonni-im-fxc</module>
         <module>lonni-im-server-demo</module>
         <module>lonni-t-io</module>
+        <module>lonni-im-client</module>
     </modules>
 
     <properties>
